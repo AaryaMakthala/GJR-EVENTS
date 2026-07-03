@@ -1,4 +1,4 @@
-# GJR Events
+# GJR EVENTS
 
 <div align="center">
   <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" />
@@ -8,19 +8,19 @@
   <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
 </div>
 
-<br/>
+---
 
 ## Live Demo
 
->> https://gjr-events.vercel.app
+https://gjr-events.vercel.app
 
 ---
 
-## Overview
+## Project Overview
 
-GJR Events is a full-stack event management platform designed to handle event bookings, customer inquiries, and gallery management with a modern admin dashboard.
+GJR Events is a full-stack event management platform designed to streamline event booking, customer communication, and administrative management.
 
-It provides a seamless experience for users to book events and for administrators to manage all operations in real time.
+The platform enables users to submit event booking requests while providing administrators with a centralized dashboard to manage bookings, gallery content, and user inquiries.
 
 ---
 
@@ -30,10 +30,10 @@ It provides a seamless experience for users to book events and for administrator
 - Admin dashboard for managing bookings
 - Gallery management system
 - Contact form with message handling
-- Secure Supabase backend integration
-- Server-side actions using Next.js App Router
+- Supabase database integration
+- Secure server-side actions using Next.js App Router
 - Telegram notifications for new bookings
-- Fully responsive UI/UX design
+- Fully responsive user interface
 - Production-ready deployment on Vercel
 
 ---
@@ -43,27 +43,27 @@ It provides a seamless experience for users to book events and for administrator
 - Next.js (App Router)
 - TypeScript
 - Tailwind CSS
-- Supabase (Database + Auth)
+- Supabase (Database and Authentication)
 - Framer Motion
-- Vercel (Deployment)
+- Vercel (Deployment platform)
 
 ---
 
 ## Project Structure
 
 ```
-app/         Routes & pages
-components/  Reusable UI components
-lib/         Utilities, Supabase clients, helpers
-types/       TypeScript types
-public/      Static assets
+app/            Application routes and pages
+components/     Reusable UI components
+lib/            Utilities and Supabase clients
+types/          TypeScript type definitions
+public/         Static assets
 ```
 
 ---
 
 ## Environment Variables
 
-Create a `.env.local` file and add:
+Create a `.env.local` file in the root directory and configure the following variables:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=
@@ -78,7 +78,9 @@ ADMIN_EMAIL=
 
 ## Installation
 
-```bash
+Clone the repository and install dependencies:
+
+```
 git clone https://github.com/AaryaMakthala/GJR-EVENTS.git
 cd GJR-EVENTS
 npm install
@@ -86,17 +88,25 @@ npm install
 
 ---
 
-## Run Development Server
+## Development
 
-```bash
+Run the development server:
+
+```
 npm run dev
+```
+
+The application will be available at:
+
+```
+http://localhost:3000
 ```
 
 ---
 
-## Build for Production
+## Production Build
 
-```bash
+```
 npm run build
 npm start
 ```
@@ -105,20 +115,20 @@ npm start
 
 ## Deployment
 
-This project is deployed on Vercel with automatic CI/CD from the main branch.
+This project is deployed on Vercel with continuous deployment enabled from the main branch.
 
-Every push to GitHub triggers a new deployment.
+Any push to the repository automatically triggers a new deployment.
 
 ---
 
 ## Notes
 
-- Ensure environment variables are configured in Vercel
-- Supabase policies must allow required operations
-- Telegram bot must be active for notifications
+- Ensure all environment variables are properly configured in Vercel.
+- Supabase security rules must be set correctly for production use.
+- Telegram bot configuration is required for notification functionality.
 
 ---
 
 ## Author
 
-Developed as a full-stack production-ready event management system for portfolio and real-world use.
+Developed as a full-stack event management platform for production use and portfolio demonstration.
