@@ -10,10 +10,14 @@ booking or contact requests directly from the site. Every submission is validate
 instantly relayed to the owner via Telegram, replacing an informal WhatsApp-only inquiry
 process with a structured, auditable pipeline.
 
-Live site: [gjr-events.vercel.app](https://gjr-events.vercel.app)
+[Live Demo](https://gjr-events.vercel.app) &nbsp;•&nbsp; [Source Code](https://github.com/AaryaMakthala/GJR-EVENTS/tree/main) &nbsp;•&nbsp; [Report Bug](https://github.com/AaryaMakthala/GJR-EVENTS/issues) &nbsp;•&nbsp; [Request Feature](https://github.com/AaryaMakthala/GJR-EVENTS/issues)
 
-This is a real, deployed client project actively used to generate and manage bookings for the
-business, not a demo or template.
+<br/>
+
+> This is a real, deployed client project actively used to generate and manage bookings for the
+> business — not a demo or a template.
+
+<br/>
 
 ![Next.js](https://img.shields.io/badge/Next.js%2015-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React%2019-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
@@ -87,32 +91,39 @@ To keep expectations accurate, this system deliberately does not include:
 
 ```mermaid
 flowchart TB
-    subgraph Visitor
-        V["Anonymous Visitor"]
+    classDef visitor fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff;
+    classDef edge fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff;
+    classDef rsc fill:#8b5cf6,stroke:#6d28d9,stroke-width:2px,color:#fff;
+    classDef action fill:#ec4899,stroke:#be185d,stroke-width:2px,color:#fff;
+    classDef data fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff;
+    classDef external fill:#06b6d4,stroke:#0e7490,stroke-width:2px,color:#fff;
+
+    subgraph Visitor[" "]
+        V["Anonymous Visitor"]:::visitor
     end
 
     subgraph Hosting["Vercel"]
-        MW["Edge Middleware<br/>session refresh + admin gate on /admin/*"]
+        MW["Edge Middleware<br/>session refresh + admin gate on /admin/*"]:::edge
 
         subgraph RSC["Server Components"]
-            SITE["Public Site<br/>marketing pages + gallery"]
-            ADMIN["Admin Dashboard<br/>bookings, messages, gallery"]
-            API["GET /api/gallery<br/>paginated public feed"]
+            SITE["Public Site<br/>marketing pages + gallery"]:::rsc
+            ADMIN["Admin Dashboard<br/>bookings, messages, gallery"]:::rsc
+            API["GET /api/gallery<br/>paginated public feed"]:::rsc
         end
 
         subgraph Actions["Server Actions"]
-            PUB["Public Actions<br/>createBooking, createContactMessage, loginAdmin"]
-            ADM["Admin Actions<br/>update/delete booking, read/delete message,<br/>upload/edit/delete gallery image"]
+            PUB["Public Actions<br/>createBooking, createContactMessage, loginAdmin"]:::action
+            ADM["Admin Actions<br/>update/delete booking, read/delete message,<br/>upload/edit/delete gallery image"]:::action
         end
     end
 
     subgraph Supabase
-        AUTH["Auth<br/>single admin account"]
-        PG[("Postgres<br/>bookings, contact_messages, gallery_images")]
-        STOR[("Storage<br/>public gallery bucket")]
+        AUTH["Auth<br/>single admin account"]:::data
+        PG[("Postgres<br/>bookings, contact_messages, gallery_images")]:::data
+        STOR[("Storage<br/>public gallery bucket")]:::data
     end
 
-    TG["Telegram Bot API<br/>instant owner notifications"]
+    TG["Telegram Bot API<br/>instant owner notifications"]:::external
 
     V --> MW --> SITE
     V --> PUB --> PG
@@ -137,6 +148,12 @@ Postgres directly.
 This is the core conversion path of the site: a visitor turning into a lead.
 
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'actorBkg': '#3b82f6', 'actorBorder': '#1d4ed8', 'actorTextColor': '#ffffff',
+  'signalColor': '#6d28d9', 'signalTextColor': '#111827',
+  'noteBkgColor': '#fef3c7', 'noteBorderColor': '#f59e0b',
+  'sequenceNumberColor': '#ffffff'
+}}}%%
 sequenceDiagram
     participant U as Visitor
     participant BF as Booking Form (client)
@@ -168,6 +185,12 @@ A single admin account controls the entire back office. Identity is verified by 
 signed-in Supabase user's email against a configured admin address.
 
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'actorBkg': '#ec4899', 'actorBorder': '#be185d', 'actorTextColor': '#ffffff',
+  'signalColor': '#0e7490', 'signalTextColor': '#111827',
+  'noteBkgColor': '#dbeafe', 'noteBorderColor': '#3b82f6',
+  'sequenceNumberColor': '#ffffff'
+}}}%%
 sequenceDiagram
     participant B as Browser (Login Form)
     participant SA as loginAdmin (Server Action)
@@ -199,6 +222,11 @@ time-based transition — every change is a deliberate admin action.
 
 ```mermaid
 stateDiagram-v2
+    classDef pendingStyle fill:#f59e0b,stroke:#b45309,stroke-width:2px,color:#fff
+    classDef confirmedStyle fill:#3b82f6,stroke:#1d4ed8,stroke-width:2px,color:#fff
+    classDef completedStyle fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff
+    classDef cancelledStyle fill:#ef4444,stroke:#b91c1c,stroke-width:2px,color:#fff
+
     [*] --> pending: Visitor submits booking request
     pending --> confirmed: Admin updates status
     pending --> completed: Admin marks completed
@@ -209,6 +237,11 @@ stateDiagram-v2
     confirmed --> [*]: Admin deletes booking
     completed --> [*]: Admin deletes booking
     cancelled --> [*]: Admin deletes booking
+
+    class pending pendingStyle
+    class confirmed confirmedStyle
+    class completed completedStyle
+    class cancelled cancelledStyle
 ```
 
 ---
@@ -219,6 +252,12 @@ The gallery is the only piece of dynamic public content on the site, and the adm
 includes a full media-management workflow for it.
 
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'actorBkg': '#10b981', 'actorBorder': '#047857', 'actorTextColor': '#ffffff',
+  'signalColor': '#7c3aed', 'signalTextColor': '#111827',
+  'noteBkgColor': '#fee2e2', 'noteBorderColor': '#ef4444',
+  'sequenceNumberColor': '#ffffff'
+}}}%%
 sequenceDiagram
     participant A as Admin
     participant D as Upload Dialog
@@ -246,6 +285,10 @@ Three independent tables, no foreign keys — each row is self-contained and the
 entity to relate bookings or messages to.
 
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': {
+  'primaryColor': '#8b5cf6', 'primaryBorderColor': '#6d28d9', 'primaryTextColor': '#ffffff',
+  'lineColor': '#6d28d9', 'tertiaryColor': '#f5f3ff'
+}}}%%
 erDiagram
     BOOKINGS {
         uuid id PK
